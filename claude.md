@@ -47,7 +47,7 @@ transkit/
 - ✅ Core translation module implemented
 - ✅ CLI tool implemented (global commands: `transkit`, `f`)
 - ✅ Translation cache implemented (`~/.config/transkit/cache.json`)
-- ✅ `f config` interactive setup command
+- ✅ `f --setup` interactive setup command
 
 ## CLI Features
 
@@ -56,7 +56,7 @@ transkit/
 - stdin support (`echo "text" | f`)
 - `-v / --verbose` flag: shows `[from → to]` language direction
 - `--no-cache` flag: bypass local cache
-- `f config` subcommand: interactive API key / region setup
+- `--setup` flag: interactive API key / region setup (replaces ambiguous `config` subcommand)
 - `.env` lookup order: cwd → `~/.config/transkit/.env` → source tree root
 
 ## API Configuration

@@ -38,7 +38,7 @@ This registers two global commands: `transkit` and the shorthand `f`.
 Run the interactive setup:
 
 ```bash
-f config
+f --setup
 ```
 
 This saves your API key and region to `~/.config/transkit/.env`, which is loaded automatically on every invocation regardless of your current directory.
@@ -76,15 +76,16 @@ f "早上好" --to en                  # specify target language
 f "Hello" --from en --to zh-Hans   # specify both languages
 f "Hello" -v                       # verbose: show [en → zh-Hans]
 f "Hello" --no-cache               # skip cache, always call API
+f --setup                          # interactive API key / region setup
 f --help                           # show usage
 ```
 
 Supported language codes: `en`, `zh-Hans`, `zh-Hant`
 
-### Interactive config
+### Interactive setup
 
 ```bash
-f config
+f --setup
 ```
 
 Prompts for API Key, Region, and Endpoint. Press Enter to keep existing values. Saves to `~/.config/transkit/.env`.

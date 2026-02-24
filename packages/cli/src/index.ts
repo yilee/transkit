@@ -34,15 +34,12 @@ const { translate, detectLanguage, getTargetLanguage, loadConfig, getCached, set
 function printUsage(): void {
   console.log(`Usage: f <text> [options]
        echo <text> | f
-       f config
-
-Subcommands:
-  config          Interactive setup: save API key and region to ~/.config/transkit/.env
 
 Options:
   --from <lang>   Source language (en, zh-Hans, zh-Hant). Auto-detected if omitted.
   --to   <lang>   Target language (en, zh-Hans, zh-Hant). Auto-detected if omitted.
   --no-cache      Skip cache lookup and do not cache the result.
+  --setup         Interactive setup: save API key and region to ~/.config/transkit/.env
   -v, --verbose   Show detected source and target language.
   -h, --help      Show this help message.
 
@@ -51,7 +48,7 @@ Examples:
   f 你好世界
   f "Good morning" --to zh-Hans -v
   echo "早上好" | f
-  f config
+  f --setup
 `);
 }
 
@@ -117,7 +114,7 @@ async function runConfig(): Promise<void> {
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
 
-  if (args[0] === 'config') {
+  if (args[0] === '--setup') {
     await runConfig();
     return;
   }
@@ -165,7 +162,7 @@ async function main(): Promise<void> {
   } catch (err) {
     console.error(`Configuration error: ${(err as Error).message}`);
     console.error(
-      'Run `f config` to set up your API key, or set TRANSLATOR_API_KEY and TRANSLATOR_REGION\n' +
+      'Run `f --setup` to set up your API key, or set TRANSLATOR_API_KEY and TRANSLATOR_REGION\n' +
       'via environment variable, a .env file in the current directory, or ~/.config/transkit/.env',
     );
     process.exit(1);
