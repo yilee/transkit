@@ -1,0 +1,21 @@
+{
+  "name": "transkit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A lightweight translation tool supporting CLI and Chrome extension",
+  "author": "kailunshi",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm --filter \"./packages/**\" build",
+    "dev": "pnpm --filter \"./packages/**\" dev",
+    "clean": "pnpm --filter \"./packages/**\" clean"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=8"
+  }
+}
