@@ -99,6 +99,28 @@ f "Hello" -v   # first call:  [en → zh-Hans]
 f "Hello" -v   # second call: [en → zh-Hans] (cached)
 ```
 
+## Chrome Extension
+
+### Install
+
+1. Build the extension:
+   ```bash
+   pnpm --filter @transkit/chrome-extension build
+   ```
+2. Open Chrome → `chrome://extensions` → Enable **Developer mode**
+3. Click **Load unpacked** → select `packages/chrome-extension/dist/`
+
+### Setup
+
+Click the Transkit icon in the Chrome toolbar, enter your **API Key** and **Region**, then click **Save**.
+
+### Usage
+
+Select any text on a page — a translation bubble appears automatically below the selection.
+
+- Click 📋 to copy the result
+- Click anywhere outside or press `Esc` to dismiss
+
 ## Project Structure
 
 ```
@@ -114,7 +136,13 @@ transkit/
 │   ├── cli/                # Command-line tool (transkit / f)
 │   │   └── src/
 │   │       └── index.ts
-│   └── chrome-extension/   # Chrome extension (coming soon)
+│   └── chrome-extension/   # Chrome extension (selection bubble)
+       ├── src/
+       │   ├── content.ts           # Selection listener + bubble UI
+       │   └── popup.ts             # API key setup popup
+       ├── content.css
+       ├── popup.html
+       └── manifest.json
 ├── .env.example
 └── pnpm-workspace.yaml
 ```

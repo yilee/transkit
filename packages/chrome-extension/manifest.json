@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Transkit",
+  "version": "0.1.0",
+  "description": "Chinese ↔ English translation. Select text to translate instantly.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://api.cognitive.microsofttranslator.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Transkit Settings"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

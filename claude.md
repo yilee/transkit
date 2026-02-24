@@ -48,6 +48,7 @@ transkit/
 - ✅ CLI tool implemented (global commands: `transkit`, `f`)
 - ✅ Translation cache implemented (`~/.config/transkit/cache.json`)
 - ✅ `f --setup` interactive setup command
+- ✅ Chrome extension (selection bubble + popup API key setup)
 
 ## CLI Features
 
@@ -71,7 +72,7 @@ transkit/
 2. ~~Set up monorepo structure~~ ✅
 3. ~~Implement core translation module~~ ✅
 4. ~~Build CLI tool~~ ✅
-5. Build Chrome extension
+5. ~~Build Chrome extension~~ ✅
 
 ## Notes
 
