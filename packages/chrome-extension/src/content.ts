@@ -112,6 +112,11 @@ document.addEventListener('mouseup', (e: MouseEvent) => {
 
   if (debounceTimer) clearTimeout(debounceTimer);
   debounceTimer = setTimeout(async () => {
+    if (!chrome?.storage?.sync) return;
+
+    const cfg = await chrome.storage.sync.get('enabled');
+    if (cfg.enabled === false) { removeBubble(); return; }
+
     const sel = window.getSelection();
     const text = sel?.toString().trim() ?? '';
 
