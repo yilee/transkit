@@ -1,33 +1,25 @@
 #!/usr/bin/env node
 import { config as dotenvConfig } from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+import { resolve } from 'path';
 import { homedir } from 'os';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import * as readline from 'readline';
+import { translate, detectLanguage, getTargetLanguage, loadConfig, getCached, setCached } from '@transkit/core';
 
-// --- .env loading (priority: cwd > ~/.config/transkit/.env > source tree root) ---
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// --- .env loading (priority: cwd > ~/.config/transkit/.env) ---
 
 function loadEnv(): void {
   const candidates = [
     resolve(process.cwd(), '.env'),
     resolve(homedir(), '.config', 'transkit', '.env'),
-    resolve(__dirname, '../../../.env'),
   ];
   for (const p of candidates) {
     if (existsSync(p)) {
       dotenvConfig({ path: p });
-      break;
+      return;
     }
   }
 }
-
-loadEnv();
-
-// Dynamic import AFTER env is loaded to avoid ES module hoisting issue.
-const { translate, detectLanguage, getTargetLanguage, loadConfig, getCached, setCached } =
-  await import('@transkit/core');
 
 // --- helpers ---
 
@@ -112,6 +104,7 @@ async function runConfig(): Promise<void> {
 // --- main ---
 
 async function main(): Promise<void> {
+  loadEnv();
   const args = process.argv.slice(2);
 
   if (args[0] === '--setup') {
