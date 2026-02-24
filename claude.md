@@ -21,6 +21,7 @@ transkit/
 │   │   │   ├── translator.ts        # Microsoft Translator API wrapper
 │   │   │   ├── language-detector.ts # Auto language detection
 │   │   │   ├── config.ts            # Configuration management
+│   │   │   ├── cache.ts             # Local translation cache (~/.config/transkit/cache.json)
 │   │   │   └── types.ts             # Shared types
 │   │   └── package.json
 │   ├── cli/                  # Command-line tool
@@ -45,11 +46,23 @@ transkit/
 - ✅ Environment variables configured
 - ✅ Core translation module implemented
 - ✅ CLI tool implemented (global commands: `transkit`, `f`)
+- ✅ Translation cache implemented (`~/.config/transkit/cache.json`)
+- ✅ `f config` interactive setup command
+
+## CLI Features
+
+- Auto language detection (Chinese ↔ English)
+- `--from` / `--to` flags for explicit language override
+- stdin support (`echo "text" | f`)
+- `-v / --verbose` flag: shows `[from → to]` language direction
+- `--no-cache` flag: bypass local cache
+- `f config` subcommand: interactive API key / region setup
+- `.env` lookup order: cwd → `~/.config/transkit/.env` → source tree root
 
 ## API Configuration
 
 - **Endpoint**: https://api.cognitive.microsofttranslator.com/
-- **API Key**: Configured in `.env`
+- **API Key**: Configured via `f config` or `.env`
 - **API Version**: 3.0
 
 ## Next Steps
