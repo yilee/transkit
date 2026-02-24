@@ -17,6 +17,7 @@ function targetLang(src: 'zh-Hans' | 'en'): 'zh-Hans' | 'en' {
 // ── API call ──────────────────────────────────────────────────────────────────
 
 async function translate(text: string): Promise<{ result: string; from: string; to: string }> {
+  if (!chrome?.storage?.sync) throw new Error('extension_context_invalid');
   const cfg = await chrome.storage.sync.get(['apiKey', 'region']);
   if (!cfg.apiKey || !cfg.region) throw new Error('no_config');
 
@@ -130,7 +131,9 @@ document.addEventListener('mouseup', (e: MouseEvent) => {
       showBubble(x, y, result, `${from} → ${to}`);
     } catch (err) {
       const msg = (err as Error).message;
-      if (msg === 'no_config') {
+      if (msg === 'extension_context_invalid') {
+        removeBubble();
+      } else if (msg === 'no_config') {
         showError(x, y, 'Transkit: click the extension icon to set up your API key');
       } else {
         showError(x, y, `Transkit: ${msg}`);
