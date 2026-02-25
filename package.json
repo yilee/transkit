@@ -11,7 +11,8 @@
   "scripts": {
     "build": "pnpm --filter \"./packages/**\" build",
     "dev": "pnpm --filter \"./packages/**\" dev",
-    "clean": "pnpm --filter \"./packages/**\" clean"
+    "clean": "pnpm --filter \"./packages/**\" clean",
+    "test": "pnpm --filter \"./packages/**\" test"
   },
   "devDependencies": {},
   "engines": {

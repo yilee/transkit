@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { homedir } from 'os';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import * as readline from 'readline';
-import { translate, detectLanguage, getTargetLanguage, loadConfig, getCached, setCached } from '@transkit/core';
+import { translate, detectLanguage, getTargetLanguage, loadConfig, getCached, setCached, getHistory } from '@transkit/core';
 
 // --- .env loading (priority: cwd > ~/.config/transkit/.env) ---
 
@@ -32,6 +32,7 @@ Options:
   --to   <lang>   Target language (en, zh-Hans, zh-Hant). Auto-detected if omitted.
   --no-cache      Skip cache lookup and do not cache the result.
   --setup         Interactive setup: save API key and region to ~/.config/transkit/.env
+  --history       Show translation history.
   -v, --verbose   Show detected source and target language.
   -h, --help      Show this help message.
 
@@ -109,6 +110,19 @@ async function main(): Promise<void> {
 
   if (args[0] === '--setup') {
     await runConfig();
+    return;
+  }
+
+  if (args.includes('--history')) {
+    const entries = getHistory();
+    if (entries.length === 0) {
+      console.log('No translation history found.');
+      return;
+    }
+    for (const entry of entries) {
+      const date = new Date(entry.timestamp).toLocaleString();
+      console.log(`[${date}] (${entry.from} → ${entry.to}) ${entry.input} → ${entry.text}`);
+    }
     return;
   }
 
