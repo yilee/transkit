@@ -126,7 +126,12 @@ async function main(): Promise<void> {
     return;
   }
 
-  if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
+  if (args.includes('--help') || args.includes('-h')) {
+    printUsage();
+    process.exit(0);
+  }
+
+  if (args.length === 0 && process.stdin.isTTY) {
     printUsage();
     process.exit(0);
   }
