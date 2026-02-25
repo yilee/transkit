@@ -117,6 +117,8 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
+  const SUPPORTED_LANGS = new Set(['en', 'zh-Hans', 'zh-Hant']);
+
   // Parse flags
   let fromLang: string | undefined;
   let toLang: string | undefined;
@@ -127,8 +129,16 @@ async function main(): Promise<void> {
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--from' && i + 1 < args.length) {
       fromLang = args[++i];
+      if (!SUPPORTED_LANGS.has(fromLang)) {
+        console.error(`Unsupported language code: "${fromLang}". Supported: en, zh-Hans, zh-Hant`);
+        process.exit(1);
+      }
     } else if (args[i] === '--to' && i + 1 < args.length) {
       toLang = args[++i];
+      if (!SUPPORTED_LANGS.has(toLang)) {
+        console.error(`Unsupported language code: "${toLang}". Supported: en, zh-Hans, zh-Hant`);
+        process.exit(1);
+      }
     } else if (args[i] === '--verbose' || args[i] === '-v') {
       verbose = true;
     } else if (args[i] === '--no-cache') {
@@ -163,7 +173,7 @@ async function main(): Promise<void> {
 
   const detectedSource = detectLanguage(text);
   const source = (fromLang ?? detectedSource) as Parameters<typeof translate>[1];
-  const target = (toLang ?? getTargetLanguage(detectedSource)) as Parameters<typeof translate>[1];
+  const target = (toLang ?? getTargetLanguage(source)) as Parameters<typeof translate>[1];
 
   // Check cache
   if (!noCache) {

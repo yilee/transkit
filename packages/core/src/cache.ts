@@ -32,7 +32,7 @@ function writeStore(store: CacheStore): void {
       const evict = keys.slice(0, keys.length - MAX_ENTRIES);
       for (const k of evict) delete store[k];
     }
-    writeFileSync(CACHE_FILE, JSON.stringify(store, null, 2), 'utf8');
+    writeFileSync(CACHE_FILE, JSON.stringify(store), 'utf8');
   } catch {
     // Cache write failure is non-fatal
   }
