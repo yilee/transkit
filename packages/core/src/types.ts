@@ -10,4 +10,9 @@ export interface TranslationResult {
   to: string;
 }
 
+export interface CacheEntry extends TranslationResult {
+  input: string;
+  timestamp: number;
+}
+
 export type SupportedLanguage = 'zh-Hans' | 'zh-Hant' | 'en';

@@ -2,13 +2,13 @@ import { createHash } from 'crypto';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { homedir } from 'os';
 import { resolve } from 'path';
-import type { TranslationResult } from './types.js';
+import type { TranslationResult, CacheEntry } from './types.js';
 
 const CACHE_DIR = resolve(homedir(), '.config', 'transkit');
 const CACHE_FILE = resolve(CACHE_DIR, 'cache.json');
 const MAX_ENTRIES = 1000;
 
-type CacheStore = Record<string, TranslationResult>;
+type CacheStore = Record<string, CacheEntry>;
 
 function cacheKey(text: string, to: string, from?: string): string {
   return createHash('sha1').update(`${from ?? ''}|${to}|${text}`).digest('hex');
@@ -45,6 +45,13 @@ export function getCached(text: string, to: string, from?: string): TranslationR
 
 export function setCached(text: string, to: string, result: TranslationResult, from?: string): void {
   const store = readStore();
-  store[cacheKey(text, to, from)] = result;
+  store[cacheKey(text, to, from)] = { ...result, input: text, timestamp: Date.now() };
   writeStore(store);
+}
+
+export function getHistory(): CacheEntry[] {
+  const store = readStore();
+  return Object.values(store)
+    .filter((entry) => entry.input)
+    .sort((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0));
 }
