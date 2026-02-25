@@ -39,3 +39,10 @@ packages/chrome-extension/dist/
 
 # OS
 Thumbs.db
+
+# Temp preview files
+icon128_v2.png
+icon48_v2.png
+icon16_v2.png
+icons_preview_composite.png
+preview.html
