@@ -2,7 +2,7 @@
 
 const BUBBLE_ID = 'transkit-bubble';
 const ENDPOINT = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0';
-const CHINESE_RE = /[\u4e00-\u9fff\u3400-\u4dbf]/;
+const CHINESE_RE = /[\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{2a6df}]/u;
 
 // ── language detection ────────────────────────────────────────────────────────
 
@@ -120,7 +120,7 @@ document.addEventListener('mouseup', (e: MouseEvent) => {
     const sel = window.getSelection();
     const text = sel?.toString().trim() ?? '';
 
-    if (!text || text.length > 500) {
+    if (!text || text.length < 2 || text.length > 500) {
       removeBubble();
       return;
     }
